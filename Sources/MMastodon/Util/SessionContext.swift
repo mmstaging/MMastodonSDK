@@ -22,7 +22,7 @@ extension MastodonAPI {
         internal let urlSession: URLSession
 
 
-        init(scheme: String, domain: String, urlSession: URLSession? = nil, authToken: MastodonAPI.Entities.Token? = nil) {
+        public init(scheme: String, domain: String, urlSession: URLSession? = nil, authToken: MastodonAPI.Entities.Token? = nil) {
             uriTemplateValues["{scheme}"] = scheme
             uriTemplateValues["{domain}"] = domain
             self.urlSession = urlSession ?? URLSession(configuration: .default)
