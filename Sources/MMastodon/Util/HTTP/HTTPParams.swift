@@ -44,15 +44,15 @@ extension MastodonAPI {
     public class HTTPParams {
         fileprivate var params = [HTTPParam]()
 
-        init() {}
+        public init() {}
 
-        init(_ params:[String:Any]) {
+        public init(_ params:[String:Any]) {
             for (param, value) in params {
                 add(param: param, value: value)
             }
         }
 
-        convenience init?(_ params:[String:Any]?) {
+        public convenience init?(_ params:[String:Any]?) {
             guard let params else { return nil }
             self.init(params)
         }
