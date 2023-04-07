@@ -58,7 +58,7 @@ extension MastodonAPI {
                 return HTTPParams(parsedQueryParams)
             }
 
-            let httpLinkRegex = /<.*\?(?<queryString>.*)>; rel="(?<rel>.*)"/
+            let httpLinkRegex = #/<.*\?(?<queryString>.*)>; rel="(?<rel>.*)"/#
 
             for component in headerValue.split(separator: ", ") {
                 if let result = try? httpLinkRegex.wholeMatch(in: component) {
