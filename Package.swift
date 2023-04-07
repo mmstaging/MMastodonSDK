@@ -29,3 +29,7 @@ let package = Package(
             dependencies: ["MMastodon"]),
     ]
 )
+
+for target in package.targets {
+  target.swiftSettings = [.unsafeFlags(["-enable-bare-slash-regex"])]
+}
