@@ -9,25 +9,25 @@ extension MastodonAPI {
     ///     - Following the next link should show you older results. Following the prev link should show you newer results.
     ///
     ///  seeAlso: https://docs.joinmastodon.org/api/guidelines/#pagination
-    public struct HTTPLink {
-        public enum `Type`: String {
-            case prev, next
-        }
-
-        public let prevParams = HTTPParams?
-        public let nextParams = HTTPParams?
-
-        init?(linkHeader: String) {
-            let parsedLinks = parseLinks()
-            guard !parsedLinks.isEmpty else { return nil }
-            
-        }
-
-        /// result will be empty Dictionary if error
-        /// <https://url.com/api/v2/blah?max_id=123456>; rel="next", <https://url.com/api/v2/blah?since_id=765432>; rel="prev"
-        func parseLinks() -> [String:String] {
-
-            return result
-        }
-    }
+//    public struct HTTPLink {
+//        public enum `Type`: String {
+//            case prev, next
+//        }
+//
+//        public let prevParams = HTTPParams?
+//        public let nextParams = HTTPParams?
+//
+//        init?(linkHeader: String) {
+//            let parsedLinks = parseLinks()
+//            guard !parsedLinks.isEmpty else { return nil }
+//            
+//        }
+//
+//        /// result will be empty Dictionary if error
+//        /// <https://url.com/api/v2/blah?max_id=123456>; rel="next", <https://url.com/api/v2/blah?since_id=765432>; rel="prev"
+//        func parseLinks() -> [String:String] {
+//
+//            return result
+//        }
+//    }
 }
