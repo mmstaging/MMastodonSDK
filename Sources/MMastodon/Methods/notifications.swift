@@ -1,21 +1,18 @@
 extension MastodonAPI.SessionContext {
 
+    /// This API returns Link headers containing links to the next/previous page. However, the links can also be constructed dynamically using query params and id values.
     public func getAllNotifications(
-                                    max_id: String? = nil,
-                                    since_id: String? = nil,
-                                    min_id: String? = nil,
                                     limit: Int? = nil,
+                                    paginationLink: HTTPParams? = nil,
                                     types: [MastodonAPI.Entities.NotificationType]? = nil,
                                     exclude_types: [MastodonAPI.Entities.NotificationType]? = nil,
                                     account_id: String? = nil
                 ) -> MastodonAPI.Transaction<[MastodonAPI.Entities.Notification]> {
         let queryParams = HTTPParams([
-            "max_id": max_id as Any,
-            "since_id": since_id as Any,
-            "min_id": min_id as Any,
             "limit": limit as Any,
             "account_id": account_id as Any
         ])
+        queryParams.add(params: paginationLink)
 
         if let types {
             for item in types {

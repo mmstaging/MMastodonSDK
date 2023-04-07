@@ -1,17 +1,13 @@
 extension MastodonAPI.SessionContext {
 
     public func getAllConversations(
-                                max_id: String? = nil,
-                                since_id: String? = nil,
-                                min_id: String? = nil,
-                                limit: Int? = nil
+                                    limit: Int? = nil,
+                                    paginationLink: HTTPParams? = nil
                             ) -> MastodonAPI.Transaction<[MastodonAPI.Entities.Conversation]> {
         let queryParams = HTTPParams([
-            "max_id": max_id as Any,
-            "since_id": since_id as Any,
-            "min_id": min_id as Any,
             "limit": limit as Any
         ])
+        queryParams.add(params: paginationLink)
 
         let urlRequest = constructURLRequest(method: .GET, uriTemplate: "/api/v1/conversations", queryParams: queryParams, requiresAuthToken: true, requiredScope: .read_statuses)
         return .init(urlSession: urlSession, urlRequest: urlRequest)

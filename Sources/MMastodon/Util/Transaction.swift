@@ -17,7 +17,6 @@ extension MastodonAPI {
         case notSuccessful(HTTPURLResponse)
     }
 
-
     public class Transaction<T:Codable> {
         unowned let urlSession: URLSession
         var urlRequest: URLRequest
@@ -40,6 +39,11 @@ extension MastodonAPI {
             guard httpResponse.statusCode == 200 else { throw TransactionError.notSuccessful(httpResponse) }
             let dto = try JSONDecoder().decode(T.self, from: data)
             return (dto, httpResponse)
+        }
+
+        public func getEntityAndLinks() async throws -> (T, PaginationLinks, HTTPURLResponse)  {
+            let (entity, response) = try await getEntity()
+            return (entity, PaginationLinks(headers: response.allHeaderFields as? [String: String]), response)
         }
     }
 }

@@ -10,9 +10,8 @@ extension MastodonAPI.SessionContext {
                                     resolve: Bool? = nil,
                                     account_id: String? = nil,
                                     exclude_unreviewed: Bool? = nil,
-                                    max_id: String? = nil,
-                                    min_id: String? = nil,
                                     limit: Int? = nil,
+                                    paginationLink: HTTPParams? = nil,
                                     offset: String? = nil
                                 ) -> MastodonAPI.Transaction<[MastodonAPI.Entities.Search]> {
         let queryParams = HTTPParams([
@@ -21,11 +20,10 @@ extension MastodonAPI.SessionContext {
             "resolve": resolve as Any,
             "account_id": account_id as Any,
             "exclude_unreviewed": exclude_unreviewed as Any,
-            "max_id": max_id as Any,
-            "min_id": min_id as Any,
             "limit": limit as Any,
             "offset": offset as Any
         ])
+        queryParams.add(params: paginationLink)
 
         let urlRequest = constructURLRequest(method: .GET, uriTemplate: "/api/v2/search", queryParams: queryParams, requiresAuthToken: true, requiredScope: .read_search)
         return .init(urlSession: urlSession, urlRequest: urlRequest)

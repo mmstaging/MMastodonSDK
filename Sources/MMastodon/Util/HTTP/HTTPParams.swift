@@ -61,6 +61,12 @@ extension MastodonAPI {
             params.append(HTTPParam(param: param, value: value, file:file))
         }
 
+        public func add(params newParams: HTTPParams?) {
+            if let newParams {
+                params += newParams.params
+            }
+        }
+
         fileprivate func urlEscape(_ s: String) -> String {
             // Reference: https://www.rfc-editor.org/rfc/rfc3986
             let allowed = NSMutableCharacterSet.alphanumeric()

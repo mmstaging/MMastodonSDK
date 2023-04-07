@@ -15,6 +15,7 @@ extension MastodonAPI {
     public class SessionContext {
         public typealias HTTPParams = MastodonAPI.HTTPParams
         public typealias HTTPFile = MastodonAPI.HTTPFile
+        public typealias PaginationLinks = MastodonAPI.PaginationLinks
 
         internal var uriTemplateValues = [String:String]()
         internal var headerTemplateValues = [String:String]()

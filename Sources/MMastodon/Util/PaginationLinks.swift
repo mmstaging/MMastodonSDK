@@ -9,7 +9,7 @@ extension MastodonAPI {
     ///     - Following the next link should show you older results. Following the prev link should show you newer results.
     ///
     ///  seeAlso: https://docs.joinmastodon.org/api/guidelines/#pagination
-    public class HTTPLinks {
+    public class PaginationLinks {
 
         private enum Page: String, Hashable {
             case prev, next
@@ -18,13 +18,21 @@ extension MastodonAPI {
         public var prev: HTTPParams? { parsedLinks[.prev] }
         public var next: HTTPParams? { parsedLinks[.next] }
 
-        private let parsedLinks: [Page: HTTPParams]
-
-        public init(headerValue: String) {
-            parsedLinks = HTTPLinks.parseLinks(from: headerValue)
+        public var both: HTTPParams? {
+            let result = HTTPParams()
+            result.add(params: prev)
+            result.add(params: next)
+            return result
         }
 
-        public convenience init(headers: [String: String]) {
+        private let parsedLinks: [Page: HTTPParams]
+
+        public init(headerValue: String = "") {
+            parsedLinks = PaginationLinks.parseLinks(from: headerValue)
+        }
+
+        public convenience init(headers: [String: String]?) {
+            guard let headers = headers else { self.init(); return }
             if let link = headers["Link"] {
                 self.init(headerValue: link)
             } else {
@@ -32,7 +40,7 @@ extension MastodonAPI {
                     self.init(headerValue: headers[key]!)
                     return
                 }
-                self.init(headerValue: "")
+                self.init()
             }
         }
 
