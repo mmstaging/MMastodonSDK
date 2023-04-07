@@ -12,7 +12,7 @@ extension MastodonAPI.SessionContext {
         ])
 
         let urlRequest = constructURLRequest(method: .GET, uriTemplate: "/api/v1/trends/tags", queryParams: queryParams)
-        return .init(urlSession: urlSession, urlRequest: urlRequest)
+        return .init(urlSession: urlSession, urlRequest: urlRequest, cacheManager: cacheManager)
     }
 
     public func getTrendingStatuses(
@@ -25,7 +25,7 @@ extension MastodonAPI.SessionContext {
         ])
 
         let urlRequest = constructURLRequest(method: .GET, uriTemplate: "/api/v1/trends/statuses", queryParams: queryParams)
-        return .init(urlSession: urlSession, urlRequest: urlRequest)
+        return .init(urlSession: urlSession, urlRequest: urlRequest, cacheManager: cacheManager)
     }
 
     public func getTrendingLinks(
@@ -38,6 +38,6 @@ extension MastodonAPI.SessionContext {
         ])
 
         let urlRequest = constructURLRequest(method: .GET, uriTemplate: "/api/v1/trends/links", queryParams: queryParams)
-        return .init(urlSession: urlSession, urlRequest: urlRequest)
+        return .init(urlSession: urlSession, urlRequest: urlRequest, cacheManager: cacheManager)
     }
 }

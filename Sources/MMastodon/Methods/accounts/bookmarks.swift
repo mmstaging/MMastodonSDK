@@ -10,7 +10,7 @@ extension MastodonAPI.SessionContext {
         queryParams.add(params: paginationLink)
 
         let urlRequest = constructURLRequest(method: .GET, uriTemplate: "/api/v1/bookmarks", queryParams: queryParams, requiresAuthToken: true, requiredScope: .read_bookmarks)
-        return .init(urlSession: urlSession, urlRequest: urlRequest)
+        return .init(urlSession: urlSession, urlRequest: urlRequest, cacheManager: cacheManager)
     }
 }
 

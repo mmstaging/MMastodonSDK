@@ -2,12 +2,12 @@ extension MastodonAPI.SessionContext {
 
     public func getLists() -> MastodonAPI.Transaction<[MastodonAPI.Entities.List]> {
         let urlRequest = constructURLRequest(method: .GET, uriTemplate: "/api/v1/lists", requiresAuthToken: true, requiredScope: .read_lists)
-        return .init(urlSession: urlSession, urlRequest: urlRequest)
+        return .init(urlSession: urlSession, urlRequest: urlRequest, cacheManager: cacheManager)
     }
 
     public func getList(id: String) -> MastodonAPI.Transaction<MastodonAPI.Entities.List> {
         let urlRequest = constructURLRequest(method: .GET, uriTemplate: "/api/v1/lists/\(id)", requiresAuthToken: true, requiredScope: .read_lists)
-        return .init(urlSession: urlSession, urlRequest: urlRequest)
+        return .init(urlSession: urlSession, urlRequest: urlRequest, cacheManager: cacheManager)
     }
 
     public func createList(title: String, replies_policy: MastodonAPI.Entities.List.RepliesPolicy) -> MastodonAPI.Transaction<MastodonAPI.Entities.List> {
@@ -16,7 +16,7 @@ extension MastodonAPI.SessionContext {
             "replies_policy": replies_policy.rawValue
         ])
         let urlRequest = constructURLRequest(method: .POST, uriTemplate: "/api/v1/lists", requiresAuthToken: true, requiredScope: .write_lists, bodyString: bodyParams.asJSON)
-        return .init(urlSession: urlSession, urlRequest: urlRequest)
+        return .init(urlSession: urlSession, urlRequest: urlRequest, cacheManager: cacheManager)
     }
 
     public func updateList(
@@ -29,12 +29,12 @@ extension MastodonAPI.SessionContext {
             "replies_policy": replies_policy?.rawValue as Any
         ])
         let urlRequest = constructURLRequest(method: .PUT, uriTemplate: "/api/v1/lists/\(id)", requiresAuthToken: true, requiredScope: .write_lists, bodyString: bodyParams.asJSON)
-        return .init(urlSession: urlSession, urlRequest: urlRequest)
+        return .init(urlSession: urlSession, urlRequest: urlRequest, cacheManager: cacheManager)
     }
 
     public func deleteList(id: String) -> MastodonAPI.Transaction<MastodonAPI.Entities.EmptyObjectResponse> {
         let urlRequest = constructURLRequest(method: .DELETE, uriTemplate: "/api/v1/lists/\(id)", requiresAuthToken: true, requiredScope: .write_lists)
-        return .init(urlSession: urlSession, urlRequest: urlRequest)
+        return .init(urlSession: urlSession, urlRequest: urlRequest, cacheManager: cacheManager)
     }
 
     public func viewAccountsInList(
@@ -48,7 +48,7 @@ extension MastodonAPI.SessionContext {
         queryParams.add(params: paginationLink)
 
         let urlRequest = constructURLRequest(method: .GET, uriTemplate: "/api/v1/lists/\(id)/accounts", queryParams: queryParams, requiresAuthToken: true, requiredScope: .read_lists)
-        return .init(urlSession: urlSession, urlRequest: urlRequest)
+        return .init(urlSession: urlSession, urlRequest: urlRequest, cacheManager: cacheManager)
     }
 
     public func addAccountToList(id: String, account_ids: [String]) -> MastodonAPI.Transaction<MastodonAPI.Entities.EmptyObjectResponse> {
@@ -58,7 +58,7 @@ extension MastodonAPI.SessionContext {
 
         let bodyParams = BodyParams(account_ids: account_ids)
         let urlRequest = constructURLRequest(method: .POST, uriTemplate: "/api/v1/lists/\(id)/accounts", requiresAuthToken: true, requiredScope: .write_lists, bodyEncodable: bodyParams)
-        return .init(urlSession: urlSession, urlRequest: urlRequest)
+        return .init(urlSession: urlSession, urlRequest: urlRequest, cacheManager: cacheManager)
     }
 
     public func deleteAccountsFromList(id: String, account_ids: [String]) -> MastodonAPI.Transaction<MastodonAPI.Entities.EmptyObjectResponse> {
@@ -68,6 +68,6 @@ extension MastodonAPI.SessionContext {
 
         let bodyParams = BodyParams(account_ids: account_ids)
         let urlRequest = constructURLRequest(method: .DELETE, uriTemplate: "/api/v1/lists/\(id)/accounts", requiresAuthToken: true, requiredScope: .write_lists, bodyEncodable: bodyParams)
-        return .init(urlSession: urlSession, urlRequest: urlRequest)
+        return .init(urlSession: urlSession, urlRequest: urlRequest, cacheManager: cacheManager)
     }
 }

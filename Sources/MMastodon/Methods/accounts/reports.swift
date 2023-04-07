@@ -20,6 +20,6 @@ extension MastodonAPI.SessionContext {
 
         let bodyParams = BodyParams(account_id: account_id, status_ids: status_ids, comment: comment, forward: forward, category: category, rule_ids: rule_ids)
         let urlRequest = constructURLRequest(method: .POST, uriTemplate: "/api/v1/reports", requiresAuthToken: true, requiredScope: .read_filters, bodyEncodable: bodyParams)
-        return .init(urlSession: urlSession, urlRequest: urlRequest)
+        return .init(urlSession: urlSession, urlRequest: urlRequest, cacheManager: cacheManager)
     }
 }

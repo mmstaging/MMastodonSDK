@@ -12,12 +12,12 @@ extension MastodonAPI.SessionContext {
                     ) -> MastodonAPI.Transaction<MastodonAPI.Entities.EmptyObjectResponse> {
         //TODO: Process errror responses
         let urlRequest = constructURLRequest(method: .POST, uriTemplate: "/api/v1/accounts", requiresAuthToken: true, requiredScope: .write_accounts)
-        return .init(urlSession: urlSession, urlRequest: urlRequest)
+        return .init(urlSession: urlSession, urlRequest: urlRequest, cacheManager: cacheManager)
     }
 
     public func verifyCredentials() -> MastodonAPI.Transaction<MastodonAPI.Entities.Account> {
         let urlRequest = constructURLRequest(method: .GET, uriTemplate: "/api/v1/accounts/verify_credentials", requiresAuthToken: true, requiredScope: .read_accounts)
-        return .init(urlSession: urlSession, urlRequest: urlRequest)
+        return .init(urlSession: urlSession, urlRequest: urlRequest, cacheManager: cacheManager)
     }
 
     public func updateAccountCredentials(
@@ -65,13 +65,13 @@ extension MastodonAPI.SessionContext {
         }
 
         let urlRequest = constructURLRequest(method: .PATCH, uriTemplate: "/api/v1/accounts/update_credentials", requiresAuthToken: true, requiredScope: .write_accounts, bodyMultipartFormData: bodyParams.asMultipartFormData)
-        return .init(urlSession: urlSession, urlRequest: urlRequest)
+        return .init(urlSession: urlSession, urlRequest: urlRequest, cacheManager: cacheManager)
     }
 
 
     public func getAccount(id: String) -> MastodonAPI.Transaction<MastodonAPI.Entities.Account> {
         let urlRequest = constructURLRequest(method: .GET, uriTemplate: "/api/v1/accounts/\(id)", requiresAuthToken: true)
-        return .init(urlSession: urlSession, urlRequest: urlRequest)
+        return .init(urlSession: urlSession, urlRequest: urlRequest, cacheManager: cacheManager)
     }
 
 
@@ -81,7 +81,7 @@ extension MastodonAPI.SessionContext {
                             ) -> MastodonAPI.Transaction<[MastodonAPI.Entities.Status]> {
 
         let urlRequest = constructURLRequest(method: .GET, uriTemplate: "/api/v1/accounts/\(id)/statuses", requiresAuthToken: publicStatusesOnly, requiredScope: !publicStatusesOnly ? .read_statuses : nil)
-        return .init(urlSession: urlSession, urlRequest: urlRequest)
+        return .init(urlSession: urlSession, urlRequest: urlRequest, cacheManager: cacheManager)
     }
 
 
@@ -96,7 +96,7 @@ extension MastodonAPI.SessionContext {
         queryParams.add(params: paginationLink)
 
         let urlRequest = constructURLRequest(method: .GET, uriTemplate: "/api/v1/accounts/\(id)/followers", queryParams: queryParams, requiresAuthToken: true)
-        return .init(urlSession: urlSession, urlRequest: urlRequest)
+        return .init(urlSession: urlSession, urlRequest: urlRequest, cacheManager: cacheManager)
     }
 
     public func getAccountFollowing(
@@ -110,18 +110,18 @@ extension MastodonAPI.SessionContext {
         queryParams.add(params: paginationLink)
 
         let urlRequest = constructURLRequest(method: .GET, uriTemplate: "/api/v1/accounts/\(id)/following", queryParams: queryParams, requiresAuthToken: true)
-        return .init(urlSession: urlSession, urlRequest: urlRequest)
+        return .init(urlSession: urlSession, urlRequest: urlRequest, cacheManager: cacheManager)
     }
 
     public func getAccountFeaturedTags(id: String) -> MastodonAPI.Transaction<[MastodonAPI.Entities.FeaturedTag]> {
         let urlRequest = constructURLRequest(method: .GET, uriTemplate: "/api/v1/accounts/\(id)/featured_tags", requiresAuthToken: true)
-        return .init(urlSession: urlSession, urlRequest: urlRequest)
+        return .init(urlSession: urlSession, urlRequest: urlRequest, cacheManager: cacheManager)
     }
 
 
     public func getListsContainingThisAccount(id: String) -> MastodonAPI.Transaction<[MastodonAPI.Entities.List]> {
         let urlRequest = constructURLRequest(method: .GET, uriTemplate: "/api/v1/accounts/\(id)/lists", requiresAuthToken: true, requiredScope: .read_lists)
-        return .init(urlSession: urlSession, urlRequest: urlRequest)
+        return .init(urlSession: urlSession, urlRequest: urlRequest, cacheManager: cacheManager)
     }
 
     public func followAccount(
@@ -137,27 +137,27 @@ extension MastodonAPI.SessionContext {
         ])
 
         let urlRequest = constructURLRequest(method: .POST, uriTemplate: "/api/v1/accounts/\(id)/follow", requiresAuthToken: true, requiredScope: .write_follows, bodyString: bodyParams.asJSON)
-        return .init(urlSession: urlSession, urlRequest: urlRequest)
+        return .init(urlSession: urlSession, urlRequest: urlRequest, cacheManager: cacheManager)
     }
 
     public func unfollowAccount(id: String) -> MastodonAPI.Transaction<MastodonAPI.Entities.Relationship> {
         let urlRequest = constructURLRequest(method: .POST, uriTemplate: "/api/v1/accounts/\(id)/unfollow", requiresAuthToken: true, requiredScope: .write_follows)
-        return .init(urlSession: urlSession, urlRequest: urlRequest)
+        return .init(urlSession: urlSession, urlRequest: urlRequest, cacheManager: cacheManager)
     }
 
     public func removeAccountFromFollowers(id: String) -> MastodonAPI.Transaction<MastodonAPI.Entities.Relationship> {
         let urlRequest = constructURLRequest(method: .POST, uriTemplate: "/api/v1/accounts/\(id)/remove_from_followers", requiresAuthToken: true, requiredScope: .write_follows)
-        return .init(urlSession: urlSession, urlRequest: urlRequest)
+        return .init(urlSession: urlSession, urlRequest: urlRequest, cacheManager: cacheManager)
     }
 
     public func blockAccount(id: String) -> MastodonAPI.Transaction<MastodonAPI.Entities.Relationship> {
         let urlRequest = constructURLRequest(method: .POST, uriTemplate: "/api/v1/accounts/\(id)/block", requiresAuthToken: true, requiredScope: .write_blocks)
-        return .init(urlSession: urlSession, urlRequest: urlRequest)
+        return .init(urlSession: urlSession, urlRequest: urlRequest, cacheManager: cacheManager)
     }
 
     public func unblockAccount(id: String) -> MastodonAPI.Transaction<MastodonAPI.Entities.Relationship> {
         let urlRequest = constructURLRequest(method: .POST, uriTemplate: "/api/v1/accounts/\(id)/unblock", requiresAuthToken: true, requiredScope: .write_blocks)
-        return .init(urlSession: urlSession, urlRequest: urlRequest)
+        return .init(urlSession: urlSession, urlRequest: urlRequest, cacheManager: cacheManager)
     }
 
     public func muteAccount(
@@ -172,22 +172,22 @@ extension MastodonAPI.SessionContext {
         ])
 
         let urlRequest = constructURLRequest(method: .POST, uriTemplate: "/api/v1/accounts/\(id)/mute", requiresAuthToken: true, requiredScope: .write_mutes, bodyString: bodyParams.asJSON)
-        return .init(urlSession: urlSession, urlRequest: urlRequest)
+        return .init(urlSession: urlSession, urlRequest: urlRequest, cacheManager: cacheManager)
     }
 
     public func unmuteAccount(id: String) -> MastodonAPI.Transaction<MastodonAPI.Entities.Relationship> {
         let urlRequest = constructURLRequest(method: .POST, uriTemplate: "/api/v1/accounts/\(id)/unmute", requiresAuthToken: true, requiredScope: .write_mutes)
-        return .init(urlSession: urlSession, urlRequest: urlRequest)
+        return .init(urlSession: urlSession, urlRequest: urlRequest, cacheManager: cacheManager)
     }
 
     public func featureAccountOnProfile(id: String) -> MastodonAPI.Transaction<MastodonAPI.Entities.Relationship> {
         let urlRequest = constructURLRequest(method: .POST, uriTemplate: "/api/v1/accounts/\(id)/pin", requiresAuthToken: true, requiredScope: .write_accounts)
-        return .init(urlSession: urlSession, urlRequest: urlRequest)
+        return .init(urlSession: urlSession, urlRequest: urlRequest, cacheManager: cacheManager)
     }
 
     public func unfeatureAccountOnProfile(id: String) -> MastodonAPI.Transaction<MastodonAPI.Entities.Relationship> {
         let urlRequest = constructURLRequest(method: .POST, uriTemplate: "/api/v1/accounts/\(id)/unpin", requiresAuthToken: true, requiredScope: .write_accounts)
-        return .init(urlSession: urlSession, urlRequest: urlRequest)
+        return .init(urlSession: urlSession, urlRequest: urlRequest, cacheManager: cacheManager)
     }
 
     public func setPrivateNoteOnProfile(
@@ -199,19 +199,19 @@ extension MastodonAPI.SessionContext {
         ])
 
         let urlRequest = constructURLRequest(method: .POST, uriTemplate: "/api/v1/accounts/\(id)/note", requiresAuthToken: true, requiredScope: .write_accounts, bodyString: bodyParams.asJSON)
-        return .init(urlSession: urlSession, urlRequest: urlRequest)
+        return .init(urlSession: urlSession, urlRequest: urlRequest, cacheManager: cacheManager)
     }
 
     public func checkRelationshipsToOtherAccounts(ids: [String]) -> MastodonAPI.Transaction<[MastodonAPI.Entities.Relationship]> {
         let query = ids.map { "id[]=\($0)" }.joined(separator: "&")
         let urlRequest = constructURLRequest(method: .GET, uriTemplate: "/api/v1/accounts/relationships?\(query)", requiresAuthToken: true, requiredScope: .read_follows)
-        return .init(urlSession: urlSession, urlRequest: urlRequest)
+        return .init(urlSession: urlSession, urlRequest: urlRequest, cacheManager: cacheManager)
     }
 
     public func findFamiliarFollowers(ids: [String]) -> MastodonAPI.Transaction<[MastodonAPI.Entities.FamiliarFollowers]> {
         let query = ids.map { "id[]=\($0)" }.joined(separator: "&")
         let urlRequest = constructURLRequest(method: .GET, uriTemplate: "/api/v1/accounts/familiar_followers?\(query)", requiresAuthToken: true, requiredScope: .read_follows)
-        return .init(urlSession: urlSession, urlRequest: urlRequest)
+        return .init(urlSession: urlSession, urlRequest: urlRequest, cacheManager: cacheManager)
     }
 
 
@@ -233,7 +233,7 @@ extension MastodonAPI.SessionContext {
         ])
 
         let urlRequest = constructURLRequest(method: .GET, uriTemplate: "/api/v1/accounts/search", queryParams: queryParams, requiresAuthToken: true, requiredScope: .read_accounts)
-        return .init(urlSession: urlSession, urlRequest: urlRequest)
+        return .init(urlSession: urlSession, urlRequest: urlRequest, cacheManager: cacheManager)
     }
 
     public func lookupAccountIDFromWebfingerAddress(acct: String) -> MastodonAPI.Transaction<MastodonAPI.Entities.Account> {
@@ -242,7 +242,7 @@ extension MastodonAPI.SessionContext {
         ])
 
         let urlRequest = constructURLRequest(method: .GET, uriTemplate: "/api/v1/accounts/lookup", queryParams: queryParams)
-        return .init(urlSession: urlSession, urlRequest: urlRequest)
+        return .init(urlSession: urlSession, urlRequest: urlRequest, cacheManager: cacheManager)
     }
 }
 

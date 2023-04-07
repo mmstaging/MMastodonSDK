@@ -18,6 +18,6 @@ extension MastodonAPI.SessionContext {
         ])
 
         let urlRequest = constructURLRequest(method: .GET, uriTemplate: "/api/v1/directory", queryParams: queryParams)
-        return .init(urlSession: urlSession, urlRequest: urlRequest)
+        return .init(urlSession: urlSession, urlRequest: urlRequest, cacheManager: cacheManager)
     }
 }

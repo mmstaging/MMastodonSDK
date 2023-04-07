@@ -21,13 +21,15 @@ extension MastodonAPI {
         internal var headerTemplateValues = [String:String]()
         internal var authToken: MastodonAPI.Entities.Token?
         internal let urlSession: URLSession
+        internal let cacheManager: HTTPCacheManager
 
 
-        public init(scheme: String, domain: String, urlSession: URLSession? = nil, authToken: MastodonAPI.Entities.Token? = nil) {
+        public init(scheme: String, domain: String, urlSession: URLSession? = nil, authToken: MastodonAPI.Entities.Token? = nil, cacheManager: HTTPCacheManager? = nil) {
             uriTemplateValues["{scheme}"] = scheme
             uriTemplateValues["{domain}"] = domain
             self.urlSession = urlSession ?? URLSession(configuration: .default)
             self.authToken = authToken
+            self.cacheManager = cacheManager ?? MastodonCacheManager()
         }
 
         public func getUriTemplateValues() -> [String: String] {
@@ -99,6 +101,7 @@ extension MastodonAPI {
                 //TODO: check auth token for scopes
                 headers["Authorization"] = "\(authToken.token_type) \(authToken.access_token)"
             }
+
             urlRequest.allHTTPHeaderFields = headers
             return urlRequest
         }

@@ -15,12 +15,12 @@ extension MastodonAPI.SessionContext {
         bodyParams.add(param: "thumbnail", file: thumbnail)
 
         let urlRequest = constructURLRequest(method: .POST, uriTemplate: "/api/v2/media", requiresAuthToken: true, requiredScope: .write_media, bodyMultipartFormData: bodyParams.asMultipartFormData)
-        return .init(urlSession: urlSession, urlRequest: urlRequest)
+        return .init(urlSession: urlSession, urlRequest: urlRequest, cacheManager: cacheManager)
     }
 
     public func getMediaAttachment(id: String) -> MastodonAPI.Transaction<MastodonAPI.Entities.MediaAttachment> {
         let urlRequest = constructURLRequest(method: .GET, uriTemplate: "/api/v1/media/\(id)", requiresAuthToken: true, requiredScope: .write_media)
-        return .init(urlSession: urlSession, urlRequest: urlRequest)
+        return .init(urlSession: urlSession, urlRequest: urlRequest, cacheManager: cacheManager)
     }
 
     public func updateMediaAttachment(
@@ -40,6 +40,6 @@ extension MastodonAPI.SessionContext {
             bodyParams.add(param: "thumbnail", file: thumbnail)
         }
         let urlRequest = constructURLRequest(method: .PUT, uriTemplate: "/api/v1/media/\(id)", requiresAuthToken: true, requiredScope: .write_media, bodyMultipartFormData: bodyParams.asMultipartFormData)
-        return .init(urlSession: urlSession, urlRequest: urlRequest)
+        return .init(urlSession: urlSession, urlRequest: urlRequest, cacheManager: cacheManager)
     }
 }

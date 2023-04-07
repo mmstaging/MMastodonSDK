@@ -2,12 +2,12 @@ extension MastodonAPI.SessionContext {
 
     public func getAllFilters() -> MastodonAPI.Transaction<[MastodonAPI.Entities.Filter]> {
         let urlRequest = constructURLRequest(method: .GET, uriTemplate: "/api/v2/filters", requiresAuthToken: true, requiredScope: .read_filters)
-        return .init(urlSession: urlSession, urlRequest: urlRequest)
+        return .init(urlSession: urlSession, urlRequest: urlRequest, cacheManager: cacheManager)
     }
 
     public func getFilter(id: String) -> MastodonAPI.Transaction<MastodonAPI.Entities.Filter> {
         let urlRequest = constructURLRequest(method: .GET, uriTemplate: "/api/v2/filters/\(id)", requiresAuthToken: true, requiredScope: .read_filters)
-        return .init(urlSession: urlSession, urlRequest: urlRequest)
+        return .init(urlSession: urlSession, urlRequest: urlRequest, cacheManager: cacheManager)
     }
 
     public func createFilter(
@@ -36,7 +36,7 @@ extension MastodonAPI.SessionContext {
         }
 
         let urlRequest = constructURLRequest(method: .POST, uriTemplate: "/api/v2/filters", queryParams: queryParams, requiresAuthToken: true, requiredScope: .write_filters)
-        return .init(urlSession: urlSession, urlRequest: urlRequest)
+        return .init(urlSession: urlSession, urlRequest: urlRequest, cacheManager: cacheManager)
     }
 
 
@@ -71,17 +71,17 @@ extension MastodonAPI.SessionContext {
         }
 
         let urlRequest = constructURLRequest(method: .PUT, uriTemplate: "/api/v2/filters/\(id)", queryParams: queryParams, requiresAuthToken: true, requiredScope: .write_filters)
-        return .init(urlSession: urlSession, urlRequest: urlRequest)
+        return .init(urlSession: urlSession, urlRequest: urlRequest, cacheManager: cacheManager)
     }
 
     public func deleteFilter(id: String) -> MastodonAPI.Transaction<MastodonAPI.Entities.EmptyObjectResponse> {
         let urlRequest = constructURLRequest(method: .DELETE, uriTemplate: "/api/v2/filters/\(id)", requiresAuthToken: true, requiredScope: .write_filters)
-        return .init(urlSession: urlSession, urlRequest: urlRequest)
+        return .init(urlSession: urlSession, urlRequest: urlRequest, cacheManager: cacheManager)
     }
 
     public func getFiltersAddedKeywords(filter_id: String) -> MastodonAPI.Transaction<[MastodonAPI.Entities.FilterKeyword]> {
         let urlRequest = constructURLRequest(method: .GET, uriTemplate: "/api/v2/filters/\(filter_id)/keywords", requiresAuthToken: true, requiredScope: .read_filters)
-        return .init(urlSession: urlSession, urlRequest: urlRequest)
+        return .init(urlSession: urlSession, urlRequest: urlRequest, cacheManager: cacheManager)
     }
 
     public func addKeywordToFilter(
@@ -95,12 +95,12 @@ extension MastodonAPI.SessionContext {
         ])
 
         let urlRequest = constructURLRequest(method: .POST, uriTemplate: "/api/v2/filters/\(filter_id)/keywords", requiresAuthToken: true, requiredScope: .write_filters, bodyString: bodyParams.asJSON)
-        return .init(urlSession: urlSession, urlRequest: urlRequest)
+        return .init(urlSession: urlSession, urlRequest: urlRequest, cacheManager: cacheManager)
     }
 
     public func getSingleKeyword(id: String) -> MastodonAPI.Transaction<MastodonAPI.Entities.FilterKeyword> {
         let urlRequest = constructURLRequest(method: .GET, uriTemplate: "/api/v2/filters/keywords/\(id)", requiresAuthToken: true, requiredScope: .read_filters)
-        return .init(urlSession: urlSession, urlRequest: urlRequest)
+        return .init(urlSession: urlSession, urlRequest: urlRequest, cacheManager: cacheManager)
     }
 
     public func editFilterKeyword(
@@ -114,31 +114,31 @@ extension MastodonAPI.SessionContext {
         ])
 
         let urlRequest = constructURLRequest(method: .PUT, uriTemplate: "/api/v2/filters/keywords/\(id)", requiresAuthToken: true, requiredScope: .write_filters, bodyString: bodyParams.asJSON)
-        return .init(urlSession: urlSession, urlRequest: urlRequest)
+        return .init(urlSession: urlSession, urlRequest: urlRequest, cacheManager: cacheManager)
     }
 
     public func removeFilterKeywords(id: String) -> MastodonAPI.Transaction<MastodonAPI.Entities.EmptyObjectResponse> {
         let urlRequest = constructURLRequest(method: .DELETE, uriTemplate: "/api/v2/filters/keywords/\(id)", requiresAuthToken: true, requiredScope: .write_filters)
-        return .init(urlSession: urlSession, urlRequest: urlRequest)
+        return .init(urlSession: urlSession, urlRequest: urlRequest, cacheManager: cacheManager)
     }
 
     public func getAllStatusFilters(filter_id: String) -> MastodonAPI.Transaction<[MastodonAPI.Entities.FilterStatus]> {
         let urlRequest = constructURLRequest(method: .GET, uriTemplate: "/api/v2/filters/\(filter_id)/statuses", requiresAuthToken: true, requiredScope: .read_filters)
-        return .init(urlSession: urlSession, urlRequest: urlRequest)
+        return .init(urlSession: urlSession, urlRequest: urlRequest, cacheManager: cacheManager)
     }
 
     public func addStatusToFilterGroup(filter_id: String) -> MastodonAPI.Transaction<MastodonAPI.Entities.FilterStatus> {
         let urlRequest = constructURLRequest(method: .POST, uriTemplate: "/api/v2/filters/\(filter_id)/statuses", requiresAuthToken: true, requiredScope: .write_filters)
-        return .init(urlSession: urlSession, urlRequest: urlRequest)
+        return .init(urlSession: urlSession, urlRequest: urlRequest, cacheManager: cacheManager)
     }
 
     public func getSingleStatusFilter(id: String) -> MastodonAPI.Transaction<MastodonAPI.Entities.FilterStatus> {
         let urlRequest = constructURLRequest(method: .GET, uriTemplate: "/api/v2/filters/statuses/\(id)", requiresAuthToken: true, requiredScope: .read_filters)
-        return .init(urlSession: urlSession, urlRequest: urlRequest)
+        return .init(urlSession: urlSession, urlRequest: urlRequest, cacheManager: cacheManager)
     }
 
     public func deleteStatusFromFilterGroup(id: String) -> MastodonAPI.Transaction<MastodonAPI.Entities.FilterStatus> {
         let urlRequest = constructURLRequest(method: .DELETE, uriTemplate: "/api/v2/filters/statuses/\(id)", requiresAuthToken: true, requiredScope: .write_filters)
-        return .init(urlSession: urlSession, urlRequest: urlRequest)
+        return .init(urlSession: urlSession, urlRequest: urlRequest, cacheManager: cacheManager)
     }
 }

@@ -49,7 +49,7 @@ extension MastodonAPI.SessionContext {
         ])
 
         let urlRequest = constructURLRequest(method: .POST, uriTemplate: "/oauth/token", bodyString: bodyParams.asJSON)
-        return .init(urlSession: urlSession, urlRequest: urlRequest)
+        return .init(urlSession: urlSession, urlRequest: urlRequest, cacheManager: cacheManager)
     }
 
     public func revokeToken(
@@ -63,7 +63,7 @@ extension MastodonAPI.SessionContext {
             "token": token
         ])
         let urlRequest = constructURLRequest(method: .POST, uriTemplate: "/oauth/revoke", bodyString: bodyParams.asJSON)
-        return .init(urlSession: urlSession, urlRequest: urlRequest)
+        return .init(urlSession: urlSession, urlRequest: urlRequest, cacheManager: cacheManager)
     }
 }
 

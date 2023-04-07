@@ -2,7 +2,7 @@ extension MastodonAPI.SessionContext {
 
     public func getStreamingServiceHealth() -> MastodonAPI.Transaction<String> {
         let urlRequest = constructURLRequest(method: .GET, uriTemplate: "/api/v1/streaming/health")
-        return .init(urlSession: urlSession, urlRequest: urlRequest)
+        return .init(urlSession: urlSession, urlRequest: urlRequest, cacheManager: cacheManager)
     }
 
 

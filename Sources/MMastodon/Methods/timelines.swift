@@ -16,7 +16,7 @@ extension MastodonAPI.SessionContext {
         queryParams.add(params: paginationLink)
 
         let urlRequest = constructURLRequest(method: .GET, uriTemplate: "/api/v1/timelines/public", queryParams: queryParams, requiresAuthToken: true, requiredScope: .read_statuses)
-        return .init(urlSession: urlSession, urlRequest: urlRequest)
+        return .init(urlSession: urlSession, urlRequest: urlRequest, cacheManager: cacheManager)
     }
 
     public func getHashtagTimeline(
@@ -57,7 +57,7 @@ extension MastodonAPI.SessionContext {
         }
 
         let urlRequest = constructURLRequest(method: .GET, uriTemplate: "/api/v1/timelines/tag/\(hashtag)", queryParams: queryParams, requiresAuthToken: true, requiredScope: .read_statuses)
-        return .init(urlSession: urlSession, urlRequest: urlRequest)
+        return .init(urlSession: urlSession, urlRequest: urlRequest, cacheManager: cacheManager)
     }
 
     public func getHomeTimeline(
@@ -70,7 +70,7 @@ extension MastodonAPI.SessionContext {
         queryParams.add(params: paginationLink)
 
         let urlRequest = constructURLRequest(method: .GET, uriTemplate: "/api/v1/timelines/home", queryParams: queryParams, requiresAuthToken: true, requiredScope: .read_statuses)
-        return .init(urlSession: urlSession, urlRequest: urlRequest)
+        return .init(urlSession: urlSession, urlRequest: urlRequest, cacheManager: cacheManager)
     }
 
     public func getListTimeline(
@@ -84,6 +84,6 @@ extension MastodonAPI.SessionContext {
         queryParams.add(params: paginationLink)
 
         let urlRequest = constructURLRequest(method: .GET, uriTemplate: "/api/v1/timelines/list/\(list_id)", queryParams: queryParams, requiresAuthToken: true, requiredScope: .read_lists)
-        return .init(urlSession: urlSession, urlRequest: urlRequest)
+        return .init(urlSession: urlSession, urlRequest: urlRequest, cacheManager: cacheManager)
     }
 }

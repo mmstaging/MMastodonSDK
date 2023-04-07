@@ -1,13 +1,12 @@
 extension MastodonAPI.SessionContext {
 
     public func getSavedTimelinePositions(id: String, timeline: [String]) -> MastodonAPI.Transaction<[String: MastodonAPI.Entities.Marker]> {
-        struct BodyParams: Encodable {
-            let timeline: [String]
+        let queryParams = timeline.reduce(into: HTTPParams()) { params, location in
+            params.add(param: "timeline[]", value: location)
         }
 
-        let bodyParams = BodyParams(timeline: timeline)
-        let urlRequest = constructURLRequest(method: .GET, uriTemplate: "/api/v1/markers", requiresAuthToken: true, requiredScope: .read_statuses, bodyEncodable: bodyParams)
-        return .init(urlSession: urlSession, urlRequest: urlRequest)
+        let urlRequest = constructURLRequest(method: .GET, uriTemplate: "/api/v1/markers", queryParams: queryParams, requiresAuthToken: true, requiredScope: .read_statuses)
+        return .init(urlSession: urlSession, urlRequest: urlRequest, cacheManager: cacheManager)
     }
 
 
@@ -23,6 +22,6 @@ extension MastodonAPI.SessionContext {
             bodyParams.add(param: "notifications[last_read_id]", value: notificationsLastReadID)
         }
         let urlRequest = constructURLRequest(method: .POST, uriTemplate: "/api/v1/markers", requiresAuthToken: true, requiredScope: .write_statuses, bodyString: bodyParams.asJSON)
-        return .init(urlSession: urlSession, urlRequest: urlRequest)
+        return .init(urlSession: urlSession, urlRequest: urlRequest, cacheManager: cacheManager)
     }
 }

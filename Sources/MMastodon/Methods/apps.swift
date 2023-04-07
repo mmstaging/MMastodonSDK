@@ -12,7 +12,7 @@ extension MastodonAPI.SessionContext {
 
         let config = AppConfig(redirect_uris: redirect_uris, website: website, client_name: client_name, scopes: scopes.asString)
         let urlRequest = constructURLRequest(method: .POST, uriTemplate: "/api/v1/apps", bodyEncodable:config)
-        return .init(urlSession: urlSession, urlRequest: urlRequest)
+        return .init(urlSession: urlSession, urlRequest: urlRequest, cacheManager: cacheManager)
     }
 
     // verifyCredentials -> dup of account.swift:verifyCredentials

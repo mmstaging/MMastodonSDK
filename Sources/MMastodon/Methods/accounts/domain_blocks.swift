@@ -10,7 +10,7 @@ extension MastodonAPI.SessionContext {
         queryParams.add(params: paginationLink)
 
         let urlRequest = constructURLRequest(method: .GET, uriTemplate: "/api/v1/domain_blocks", queryParams: queryParams, requiresAuthToken: true, requiredScope: .read_blocks)
-        return .init(urlSession: urlSession, urlRequest: urlRequest)
+        return .init(urlSession: urlSession, urlRequest: urlRequest, cacheManager: cacheManager)
     }
 
 
@@ -20,7 +20,7 @@ extension MastodonAPI.SessionContext {
         ])
 
         let urlRequest = constructURLRequest(method: .POST, uriTemplate: "/api/v1/domain_blocks", requiresAuthToken: true, requiredScope: .write_blocks, bodyString: bodyParams.asJSON)
-        return .init(urlSession: urlSession, urlRequest: urlRequest)
+        return .init(urlSession: urlSession, urlRequest: urlRequest, cacheManager: cacheManager)
     }
 
     public func unblockDomain(domain: String) -> MastodonAPI.Transaction<MastodonAPI.Entities.EmptyObjectResponse> {
@@ -29,6 +29,6 @@ extension MastodonAPI.SessionContext {
         ])
 
         let urlRequest = constructURLRequest(method: .DELETE, uriTemplate: "/api/v1/domain_blocks", requiresAuthToken: true, requiredScope: .write_blocks, bodyString: bodyParams.asJSON)
-        return .init(urlSession: urlSession, urlRequest: urlRequest)
+        return .init(urlSession: urlSession, urlRequest: urlRequest, cacheManager: cacheManager)
     }
 }

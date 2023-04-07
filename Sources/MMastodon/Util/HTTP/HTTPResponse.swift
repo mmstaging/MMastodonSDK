@@ -1,8 +1,14 @@
 import Foundation
 
 extension MastodonAPI {
-    public class HTTPResponse<T: Codable> {
-        var responseHeaders = [String: String]()
-        var responseBody = T?.none
+    /// A remake of HTTPURLResponse, but conforming to Codable
+    public struct HTTPResponse: Codable {
+        public let statusCode: Int
+        public var allHeaderFields: [String: String]?
+
+        public init(from resp: HTTPURLResponse) {
+            statusCode = resp.statusCode
+            allHeaderFields = resp.allHeaderFields as? [String: String] ?? [:]
+        }
     }
 }
