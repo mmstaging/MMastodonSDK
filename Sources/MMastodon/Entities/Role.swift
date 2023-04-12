@@ -2,7 +2,7 @@ extension MastodonAPI.Entities {
     /// Represents a custom user role that grants permissions.
     public struct Role: Codable, Hashable {
         /// The ID of the Role in the database.
-        public var id: Int
+        public var id: String
         /// The name of the role.
         public var name: String
         /// The hex code assigned to this role. If no hex code is assigned, the string will be empty.
