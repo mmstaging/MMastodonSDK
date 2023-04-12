@@ -40,7 +40,7 @@ public actor MastodonCacheManager : HTTPCacheManager {
                     notFound.insert(cacheID)
                     continue
                 }
-                let respURL = cacheFolderURL.appendingPathComponent(cacheID).appendingPathExtension(".resp")
+                let respURL = cacheFolderURL.appendingPathComponent(cacheID).appendingPathExtension("resp")
                 var response: HTTPResponse
                 if let data = try? Data(contentsOf: respURL) {
                     response = try JSONDecoder().decode(HTTPResponse.self, from: data)
@@ -66,8 +66,8 @@ public actor MastodonCacheManager : HTTPCacheManager {
         guard urlRequest.allHTTPHeaderFields?["Authorization"] == nil else { return false }
         guard let url = urlRequest.url, url.query == nil else { return false }
 
-        if let cacheControl = urlRequest.value(forHTTPHeaderField: "Cache-Control"),
-            cacheControl.lowercased().contains("no-cache") {
+        if let cacheControl = urlRequest.value(forHTTPHeaderField: "Cache-Control")?.lowercased(),
+            cacheControl.contains("no-cache") || cacheControl.contains("no-store") {
             return false
         }
 
@@ -81,11 +81,13 @@ public actor MastodonCacheManager : HTTPCacheManager {
             let (contents, httpResponse) = cache[cacheID]
         else { return nil }
 
+        //TODO: max-age? calc now - date on response and discard
+
         var headers = urlRequest.allHTTPHeaderFields!
-        if let etag = urlRequest.value(forHTTPHeaderField: "Etag") {
+        if let etag = httpResponse.value(forHTTPHeaderField: "Etag") {
             headers["If-None-Match"] = etag
         }
-        if let lastModified = urlRequest.value(forHTTPHeaderField: "Last-Modified") {
+        if let lastModified = httpResponse.value(forHTTPHeaderField: "Last-Modified") {
             headers["If-Modified-Since"] = lastModified
         }
         urlRequest.allHTTPHeaderFields = headers
@@ -115,11 +117,13 @@ public actor MastodonCacheManager : HTTPCacheManager {
         }
 
         cache[cacheID] = (contents, response)
+        var response = response
+        response.allHeaderFields!["local-cache-id"] = cacheID
         do {
             let cacheFileBaseURL = cacheFolderURL.appendingPathComponent(cacheID)
             try contents.write(to: cacheFileBaseURL.appendingPathExtension("data"), options: [.atomic])
             let responseJsonData = try jsonEncoder.encode(response)
-            try responseJsonData.write(to: cacheFileBaseURL.appendingPathExtension("data"), options: [.atomic])
+            try responseJsonData.write(to: cacheFileBaseURL.appendingPathExtension("resp"), options: [.atomic])
         } catch {
             //TODO: need proper handling
             fatalError("Cache.update caught error: \(error)")

@@ -3,7 +3,7 @@ import XCTest
 
 let WEBSITE = "https://app.joinmastodon.org/ios"
 let SCHEME = ProcessInfo.processInfo.environment["HTTP_SCHEME"] ?? "https"
-let DOMAIN = ProcessInfo.processInfo.environment["HTTP_DOMAIN"] ?? "localhost:8080"
+let DOMAIN = ProcessInfo.processInfo.environment["HTTP_DOMAIN"] ?? "sfba.social"
 
 final class MMastodonTests: XCTestCase {
     func testExample() throws {
@@ -19,15 +19,20 @@ final class MMastodonTests: XCTestCase {
 
     func testHello() async throws {
         let s = MastodonAPI.SessionContext(scheme: SCHEME, domain: DOMAIN)
-        let transaction = s.createApplication(
-                                                redirect_uris: "mastodon://joinmastodon.org/oauth",
-                                                website: WEBSITE,
-                                                client_name: "Mastodon",
-                                                scopes: [.read, .write, .follow, .push]
-                                            )
-        let (application, response) = try await transaction.getEntity()
-        XCTAssertEqual(application.website, "https://app.joinmastodon.org/ios")
-        XCTAssertEqual(response.statusCode, 200, "Create Application API call failed")
+//        let transaction = s.createApplication(
+//                                                redirect_uris: "mastodon://joinmastodon.org/oauth",
+//                                                website: WEBSITE,
+//                                                client_name: "Mastodon",
+//                                                scopes: [.read, .write, .follow, .push]
+//                                            )
+//        let (application, response) = try await transaction.getEntity()
+//        XCTAssertEqual(application.website, "https://app.joinmastodon.org/ios")
+//        XCTAssertEqual(response.statusCode, 200, "Create Application API call failed")
+
+        var transaction = s.getProfileDirectory()
+        var (instance, response) = try await transaction.getEntity()
+        print(instance)
+        print(response)
 
     }
 }

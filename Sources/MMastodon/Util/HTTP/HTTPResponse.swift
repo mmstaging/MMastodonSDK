@@ -10,5 +10,13 @@ extension MastodonAPI {
             statusCode = resp.statusCode
             allHeaderFields = resp.allHeaderFields as? [String: String] ?? [:]
         }
+
+        public func value(forHTTPHeaderField field: String) -> String? {
+            let field = field.lowercased()
+            for (key, value) in allHeaderFields ?? [:] where key.lowercased() == field {
+                return value
+            }
+            return nil
+        }
     }
 }

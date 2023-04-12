@@ -27,7 +27,7 @@ extension MastodonAPI {
         public init(scheme: String, domain: String, urlSession: URLSession? = nil, authToken: MastodonAPI.Entities.Token? = nil, cacheManager: HTTPCacheManager? = nil) {
             uriTemplateValues["{scheme}"] = scheme
             uriTemplateValues["{domain}"] = domain
-            self.urlSession = urlSession ?? URLSession(configuration: .default)
+            self.urlSession = urlSession ?? URLSession(configuration: .ephemeral) //URLSession(configuration: .default)
             self.authToken = authToken
             self.cacheManager = cacheManager ?? MastodonCacheManager()
         }

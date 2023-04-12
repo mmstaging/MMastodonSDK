@@ -52,6 +52,8 @@ extension MastodonAPI {
                 } else {
                     await cacheManager.update(urlRequest: urlRequest, contents: data, response: httpResponse)
                 }
+            } else {
+                await cacheManager.update(urlRequest: urlRequest, contents: data, response: httpResponse)
             }
 
             guard httpResponse.statusCode == 200 else { throw TransactionError.notSuccessful(httpResponse) }

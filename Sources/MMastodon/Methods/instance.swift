@@ -5,7 +5,7 @@ extension MastodonAPI.SessionContext {
         return .init(urlSession: urlSession, urlRequest: urlRequest, cacheManager: cacheManager)
     }
 
-    public func getConnectedDomains() -> MastodonAPI.Transaction<[String]> {
+    public func getPeerInstances() -> MastodonAPI.Transaction<[String]> {
         let urlRequest = constructURLRequest(method: .GET, uriTemplate: "/api/v1/instance/peers")
         return .init(urlSession: urlSession, urlRequest: urlRequest, cacheManager: cacheManager)
     }
