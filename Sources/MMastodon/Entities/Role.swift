@@ -10,7 +10,8 @@ extension MastodonAPI.Entities {
         /// An index for the role’s position. The higher the position, the more priority the role has over other roles.
         public var position: Int?
         /// A bitmask that represents the sum of all permissions granted to the role.
-        public var permissions: RolePermissions?
+        /// Server uses String, but in the Client, should be converted to int as rawValue to RolePermissions
+        public var permissions: String?
         /// Whether the role is publicly visible as a badge on user profiles.
         public var highlighted: Bool?
         /// The date that the role was created. ISO 8601 Datetime.
